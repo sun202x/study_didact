@@ -1,0 +1,29 @@
+{
+  "name": "study_didact",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && http-server ./ -p 8090 -o",
+    "build": "babel public/src -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sun202x/study_didact.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sun202x/study_didact/issues"
+  },
+  "homepage": "https://github.com/sun202x/study_didact#readme",
+  "dependencies": {
+    "http-server": "^0.12.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-react": "^7.12.5"
+  }
+}
