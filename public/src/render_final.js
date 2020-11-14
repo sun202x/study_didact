@@ -52,6 +52,10 @@ Didact.render(<App stories={stories} />, document.getElementById("root"));
 
 /** ⬇️⬇️⬇️⬇️⬇️ 🌼Didact🌼 ⬇️⬇️⬇️⬇️⬇️ **/
 
+// 이전 버전의 문제점 해결
+// 1. 모든 변경 사항은 전체 가상 DOM 트리에서 조정을 트리거합니다.
+// 2. state가 global로 관리된다는 점
+// 3. 상태 변경후 명시적으로 render 호출
 function importFromBelow() {
     let rootInstance = null;
     const TEXT_ELEMENT = "TEXT_ELEMENT";
@@ -152,8 +156,9 @@ function importFromBelow() {
             return instance;
         } else {
             // Instantiate component element
-            const instance = {};
+            const instance = {}; // internal instance
             const publicInstance = createPublicInstance(element, instance);
+            // instantiate로 전달하기 위한 자식 엘리먼트를 가져온다.
             const childElement = publicInstance.render();
             const childInstance = instantiate(childElement);
             const dom = childInstance.dom;
@@ -192,16 +197,19 @@ function importFromBelow() {
     function createPublicInstance(element, internalInstance) {
         const { type, props } = element;
         const publicInstance = new type(props);
+        // 내부 인스턴스는 하나의 자식만 가진다.
         publicInstance.__internalInstance = internalInstance;
         return publicInstance;
     }
 
+    // 컴포넌트가 확장할 기본 컴포넌트 클래스 제공
     class Component {
         constructor(props) {
             this.props = props;
             this.state = this.state || {};
         }
 
+        // 컴포넌트 상태를 업데이트하는 데 사용할 partialState를 수신하는 setState 메소드
         setState(partialState) {
             this.state = Object.assign({}, this.state, partialState);
             updateInstance(this.__internalInstance);

@@ -63,6 +63,8 @@ Didact.render(appElement(), document.getElementById("root"));
 
 /** ⬇️⬇️⬇️⬇️⬇️ 🌼Didact🌼 ⬇️⬇️⬇️⬇️⬇️ **/
 
+// DOM에 1:1로 매핑되는 인스턴스 생성
+// 비교 후 업데이트
 function importFromBelow() {
     const TEXT_ELEMENT = "TEXT ELEMENT";
     let rootInstance = null;
@@ -73,7 +75,11 @@ function importFromBelow() {
         rootInstance = nextInstance;
     }
 
+    // 가능한 인스턴스를 만들거나 제거하지 않는 것이 목표
+    // 인스턴슬르 제거한다는 것은 DOM 트리도 수정한다는 것을 의미
+    // 인스턴스를 더 많이 사용할수록 DOM 트리를 덜 수정하게 된다.
     function reconcile(parentDom, instance, element) {
+        // 새로운 인스턴스를 생성하거나, 기존 인스턴스를 반환
         if (instance == null) {
             // Create instance
             const newInstance = instantiate(element);
@@ -84,6 +90,7 @@ function importFromBelow() {
             parentDom.removeChild(instance.dom);
             return null;
         } else if (instance.element.type === element.type) {
+            // type을 비교하여 재사용 여부 결정
             // Update instance
             updateDomProperties(instance.dom, instance.element.props, element.props);
             instance.childInstances = reconcileChildren(instance, element);
@@ -129,6 +136,7 @@ function importFromBelow() {
         const childDoms = childInstances.map(childInstance => childInstance.dom);
         childDoms.forEach(childDom => dom.appendChild(childDom));
 
+        // 마지막으로 호출된 .render의 instance를 저장한다.
         const instance = { dom, element, childInstances };
         return instance;
     }
