@@ -76,7 +76,7 @@ function importFromBelow() {
     }
 
     // 가능한 인스턴스를 만들거나 제거하지 않는 것이 목표
-    // 인스턴슬르 제거한다는 것은 DOM 트리도 수정한다는 것을 의미
+    // 인스턴스를 제거한다는 것은 DOM 트리도 수정한다는 것을 의미
     // 인스턴스를 더 많이 사용할수록 DOM 트리를 덜 수정하게 된다.
     function reconcile(parentDom, instance, element) {
         // 새로운 인스턴스를 생성하거나, 기존 인스턴스를 반환

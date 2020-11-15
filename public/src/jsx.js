@@ -59,6 +59,8 @@ function importFromBelow() {
         parentDom.appendChild(dom);
     }
 
+    // didact object로 만들어서 반환하는 역할을 한다.
+    // didact object는 { type, props } 와 같이 생겼다.
     function createElement(type, config, ...args) {
         const props = Object.assign({}, config);
         const hasChildren = args.length > 0;
